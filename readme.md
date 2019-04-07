@@ -5,3 +5,6 @@ I found the following article
 https://stackoverflow.com/questions/37192508/trying-to-execute-a-script-from-package-json-on-windows-throws-a-jscript-error
 renamed r.js to r in node_modules/.bin
 now ./node_modules/.bin/r.js -o rbuild.js works
+
+
+Please run npm install @babel --save
