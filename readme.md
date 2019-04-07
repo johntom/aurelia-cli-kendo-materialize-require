@@ -8,5 +8,5 @@ now ./node_modules/.bin/r.js -o rbuild.js works
 
 
 # Please run npm install
-# npm instal @babel 
+# npm install @babel 
 # au run
