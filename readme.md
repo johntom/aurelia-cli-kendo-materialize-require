@@ -7,4 +7,5 @@ renamed r.js to r in node_modules/.bin
 now ./node_modules/.bin/r.js -o rbuild.js works
 
 
-Please run npm install @babel --save
+Please run npm install
+then npm instal @babel 
