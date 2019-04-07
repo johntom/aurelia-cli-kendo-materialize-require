@@ -7,6 +7,6 @@ renamed r.js to r in node_modules/.bin
 now ./node_modules/.bin/r.js -o rbuild.js works
 
 
-#Please run npm install
+# Please run npm install
 # npm instal @babel 
-#au run
+# au run
