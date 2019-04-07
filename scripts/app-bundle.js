@@ -18,7 +18,7 @@ define('app',['exports'], function (exports) {
 
     App.prototype.configureRouter = function configureRouter(config, router) {
       config.title = 'Aurelia';
-      config.map([{ route: ['', 'welcome'], name: 'welcome', moduleId: 'welcome', nav: true, title: 'Welcome' }, { route: 'users', name: 'users', moduleId: 'users', nav: true, title: 'Github Users' }, { route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }]);
+      config.map([{ route: ['', 'welcome'], name: 'welcome', moduleId: 'welcome', nav: true, title: 'Welcome' }, { route: 'users', name: 'users', moduleId: 'users', nav: true, title: 'Github Users' }, { route: 'child-router', name: 'child-router', moduleId: 'child-router', nav: true, title: 'Child Router' }, { route: 'kendo', moduleId: './kendo/index', nav: true, title: 'kendo' }, { route: 'parallax', moduleId: './parallax/index', nav: true, title: 'parallax' }]);
 
       this.router = router;
     };
@@ -360,6 +360,122 @@ define('environment',["exports"], function (exports) {
     testing: true
   };
 });;
+define('text!kendo/app.css',[],function(){return ".customer-photo {\r\n    display: inline-block;\r\n    width: 32px;\r\n    height: 32px;\r\n    border-radius: 50%;\r\n    background-size: 32px 35px;\r\n    background-position: center center;\r\n    vertical-align: middle;\r\n    line-height: 32px;\r\n    box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);\r\n    margin-left: 5px;\r\n}\r\n\r\n.customer-name {\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n    line-height: 32px;\r\n    padding-left: 3px;\r\n}";});;
+define('kendo/index',["exports", "aurelia-framework", "aurelia-materialize-bridge", "aurelia-router"], function (exports, _aureliaFramework, _aureliaMaterializeBridge, _aureliaRouter) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.UpperValueConverter = exports.Kendo = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _createClass = function () {
+    function defineProperties(target, props) {
+      for (var i = 0; i < props.length; i++) {
+        var descriptor = props[i];
+        descriptor.enumerable = descriptor.enumerable || false;
+        descriptor.configurable = true;
+        if ("value" in descriptor) descriptor.writable = true;
+        Object.defineProperty(target, descriptor.key, descriptor);
+      }
+    }
+
+    return function (Constructor, protoProps, staticProps) {
+      if (protoProps) defineProperties(Constructor.prototype, protoProps);
+      if (staticProps) defineProperties(Constructor, staticProps);
+      return Constructor;
+    };
+  }();
+
+  var _dec, _class;
+
+  var Kendo = exports.Kendo = (_dec = (0, _aureliaFramework.inject)(_aureliaMaterializeBridge.MdToastService, _aureliaRouter.AppRouter), _dec(_class = function () {
+    function Kendo(toast, router) {
+      _classCallCheck(this, Kendo);
+
+      this.heading = 'Welcome to the Aurelia Navigation-Kendo-Systemjs-Cli App!';
+      this.firstName = 'John';
+      this.lastName = 'Doe';
+      this.previousValue = this.fullName;
+      this.pageable = {
+        refresh: true,
+        pageSizes: true,
+        buttonCount: 10
+      };
+      this.resizable = {
+        content: true,
+        toolbar: true
+      };
+
+      this.modal = _aureliaMaterializeBridge.MdModal;
+      this.toast = toast;
+
+      this.datasource = {
+        type: 'odata',
+        transport: {
+          read: '//demos.telerik.com/kendo-ui/service/Northwind.svc/Customers'
+        },
+        pageSize: 5
+      };
+    }
+
+    Kendo.prototype.agree = function agree(e) {
+      this.toast.show("You agreed!", 4000);
+    };
+
+    Kendo.prototype.disagree = function disagree(e) {
+      this.toast.show("You disagreed!", 4000);
+    };
+
+    Kendo.prototype.openModal = function openModal() {
+      this.modal.open();
+    };
+
+    Kendo.prototype.testToast = function testToast() {
+      this.toast.show("You disagreed!", 4000);
+    };
+
+    Kendo.prototype.submit = function submit() {
+      this.previousValue = this.fullName;
+
+      alert("Welcome, " + this.fullName + "!");
+    };
+
+    Kendo.prototype.canDeactivate = function canDeactivate() {
+      if (this.fullName !== this.previousValue) {
+        return confirm('Are you sure you want to leave?');
+      }
+    };
+
+    _createClass(Kendo, [{
+      key: "fullName",
+      get: function get() {
+        return this.firstName + " " + this.lastName;
+      }
+    }]);
+
+    return Kendo;
+  }()) || _class);
+
+  var UpperValueConverter = exports.UpperValueConverter = function () {
+    function UpperValueConverter() {
+      _classCallCheck(this, UpperValueConverter);
+    }
+
+    UpperValueConverter.prototype.toView = function toView(value) {
+      return value && value.toUpperCase();
+    };
+
+    return UpperValueConverter;
+  }();
+});;
+define('text!kendo/index.html',[],function(){return "<template><require from=\"./app.css\"></require><require from=\"materialize-css/dist/css/materialize.css\"></require><section class=\"au-animate\"><br><br><br><h4>${heading}</h4><div class=\"demo-section k-content\"><h4>Show e-mails from:</h4><input id=\"datepicker\" ak-datepicker=\"k-value.bind:'10/10/2011'\" style=\"width:100%\"><h4 style=\"margin-top:2em\">Add to archive mail from:</h4><input id=\"monthpicker\" ak-datepicker=\"k-value.bind:'November 2011'; k-start.bind:'year'; k-depth.bind: 'year';k-format.bind:'MMMM yyyy';\" style=\"width:100%\"><p></p></div><ak-grid k-data-source.bind=\"datasource\" k-pageable.bind=\"pageable\" k-sortable.bind=\"true\"><ak-col k-title=\"Contact Name\" k-field=\"ContactName\"><ak-template><div class=\"customer-photo\" style=\"background-image:url(http://demos.telerik.com/kendo-ui/content/web/Customers/${CustomerID}.jpg)\"></div><div class=\"customer-name\">${ContactName}</div></ak-template></ak-col><ak-col k-title=\"Contact Name\" k-field=\"ContactName\"></ak-col><ak-col k-title=\"Contact Title\" k-field=\"ContactTitle\"></ak-col><ak-col k-title=\"Company Name\" k-field=\"CompanyName\"></ak-col><ak-col k-field=\"Country\"></ak-col></ak-grid><div class=\"demo-section wide k-content\"><textarea ak-rich-editor style=\"height:440px\">\r\n\r\n        &lt;p&gt;&lt;img src=&quot;http://demos.telerik.com/kendo-ui/content/web/editor/kendo-ui-web.png&quot; alt=&quot;Editor for ASP.NET MVC logo&quot; style=&quot;display:block;margin-left:auto;margin-right:auto;&quot; /&gt;&lt;/p&gt;\r\n        &lt;p&gt;\r\n            Kendo UI Editor allows your users to edit HTML in a familiar, user-friendly way.&lt;br /&gt;\r\n            In this version, the Editor provides the core HTML editing engine, which includes basic text formatting, hyperlinks, lists,\r\n            and image handling. The widget &lt;strong&gt;outputs identical HTML&lt;/strong&gt; across all major browsers, follows\r\n            accessibility standards and provides API for content manipulation.\r\n        &lt;/p&gt;\r\n        &lt;p&gt;Features include:&lt;/p&gt;\r\n        &lt;ul&gt;\r\n            &lt;li&gt;Text formatting &amp; alignment&lt;/li&gt;\r\n            &lt;li&gt;Bulleted and numbered lists&lt;/li&gt;\r\n            &lt;li&gt;Hyperlink and image dialogs&lt;/li&gt;\r\n            &lt;li&gt;Cross-browser support&lt;/li&gt;\r\n            &lt;li&gt;Identical HTML output across browsers&lt;/li&gt;\r\n            &lt;li&gt;Gracefully degrades to a &lt;code&gt;textarea&lt;/code&gt; when JavaScript is turned off&lt;/li&gt;\r\n        &lt;/ul&gt;\r\n        &lt;p&gt;\r\n            Read &lt;a href=&quot;http://docs.telerik.com/kendo-ui&quot;&gt;more details&lt;/a&gt; or send us your\r\n            &lt;a href=&quot;http://www.telerik.com/forums/&quot;&gt;feedback&lt;/a&gt;!\r\n        &lt;/p&gt;\r\n        </textarea></div><div id=\"example\"><div class=\"demo-section wide k-content\"><h2>Invite Attendees</h2><label for=\"required\">Required</label><ak-multiselect k-value.two-way=\"required\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option selected=\"selected\">Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option selected=\"selected\">Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><label for=\"optional\">Optional</label><ak-multiselect k-auto-close.bind=\"false\" k-value.two-way=\"optional\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option>Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option>Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><button ak-button click.delegate=\"showAttendees()\">Send Invitation</button></div><div class=\"demo-section wide k-content\"><h2>Invite Attendees</h2><label for=\"required\">Required</label><ak-multiselect k-value.two-way=\"required\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option selected=\"selected\">Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option selected=\"selected\">Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><label for=\"optional\">Optional</label><ak-multiselect k-auto-close.bind=\"false\" k-value.two-way=\"optional\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option>Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option>Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><button ak-button click.delegate=\"showAttendees()\">Send Invitation</button><br><br><br><br></div></div></section></template>";});;
 define('main',['exports', './environment', 'bootstrap', 'kendo/css/web/kendo.common.min.css', 'kendo/css/web/kendo.default.min.css', 'kendo/js/kendo.datepicker', 'kendo/js/kendo.grid', 'kendo/js/kendo.editor', 'kendo/js/kendo.multiselect'], function (exports, _environment) {
   'use strict';
 
@@ -401,6 +517,33 @@ define('kendo/css/web/kendo.common.min.css',['__inject_css__','text!kendo/css/we
 define('kendo/css/web/kendo.default.min.css',['__inject_css__','text!kendo/css/web/kendo.default.min.css'],function(i,c){i(c,'_au_css:kendo/css/web/kendo.default.min.css');});
 ;
 define('text!nav-bar.html',[],function(){return "<template bindable=\"router\"><nav class=\"navbar navbar-default navbar-fixed-top\" role=\"navigation\"><div class=\"navbar-header\"><button type=\"button\" class=\"navbar-toggle\" data-toggle=\"collapse\" data-target=\"#navigation-navbar-collapse-1\"><span class=\"sr-only\">Toggle Navigation</span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span> <span class=\"icon-bar\"></span></button> <a class=\"navbar-brand\" href=\"#\"><i class=\"fa fa-home\"></i> <span>${router.title}</span></a></div><div class=\"collapse navbar-collapse\" id=\"navigation-navbar-collapse-1\"><ul class=\"nav navbar-nav\"><li repeat.for=\"row of router.navigation\" class=\"${row.isActive ? 'active' : ''}\"><a data-toggle=\"collapse\" data-target=\"#navigation-navbar-collapse-1.in\" href.bind=\"row.href\">${row.title}</a></li></ul><ul class=\"nav navbar-nav navbar-right\"><li class=\"loader\" if.bind=\"router.isNavigating\"><i class=\"fa fa-spinner fa-spin fa-2x\"></i></li></ul></div></nav></template>";});;
+define('text!parallax/app.css',[],function(){return ".customer-photo {\r\n    display: inline-block;\r\n    width: 32px;\r\n    height: 32px;\r\n    border-radius: 50%;\r\n    background-size: 32px 35px;\r\n    background-position: center center;\r\n    vertical-align: middle;\r\n    line-height: 32px;\r\n    box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);\r\n    margin-left: 5px;\r\n}\r\n\r\n.customer-name {\r\n    display: inline-block;\r\n    vertical-align: middle;\r\n    line-height: 32px;\r\n    padding-left: 3px;\r\n}\r\n\r\n.md-parallax-demo .parallax {\r\n    z-index: 0;\r\n  }\r\n  ";});;
+define('parallax/index',["exports", "aurelia-framework", "aurelia-materialize-bridge", "aurelia-router"], function (exports, _aureliaFramework, _aureliaMaterializeBridge, _aureliaRouter) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  exports.Modal = undefined;
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var _dec, _class;
+
+  var Modal = exports.Modal = (_dec = (0, _aureliaFramework.inject)(_aureliaMaterializeBridge.MdToastService, _aureliaRouter.AppRouter), _dec(_class = function Modal() {
+    _classCallCheck(this, Modal);
+
+    this.heading = 'Welcome to Parallax!';
+    this.firstName = 'John';
+    this.lastName = 'Doe';
+    this.previousValue = this.fullName;
+  }) || _class);
+});;
+define('text!parallax/index.html',[],function(){return "<template><require from=\"./app.css\"></require><div class=\"md-parallax-demo\"><div class=\"row\"><div class=\"col s12 m8\"><md-card title=\"Parallax\"><p>scroll down</p></md-card></div></div><div class=\"parallax-container\"><div md-parallax><img src=\"https://aurelia-ui-toolkits.github.io/demo-materialize/images/parallax-1.jpg\"></div></div><div class=\"row\"><div class=\"col s12 m8\"><md-card title=\"More content\"><p>some more scrolling content</p></md-card></div></div><div class=\"parallax-container\"><div md-parallax><img src=\"https://aurelia-ui-toolkits.github.io/demo-materialize/images/parallax-2.jpg\"></div></div><div class=\"row\"><div class=\"col s12 m8\"><md-card title=\"More content\"><p>even more scrolling content</p></md-card></div></div><div class=\"parallax-container\"><div md-parallax><img src=\"https://aurelia-ui-toolkits.github.io/demo-materialize/images/parallax-1.jpg\"></div></div><div class=\"row\"><div class=\"col s12 m8\"><md-card title=\"More content\"><p>some more scrolling content</p></md-card></div></div><div class=\"parallax-container\"><div md-parallax><img src=\"https://aurelia-ui-toolkits.github.io/demo-materialize/images/parallax-2.jpg\"></div></div><div class=\"row\"><div class=\"col s12 m8\"><md-card title=\"More content\"><p>even more scrolling content</p></md-card></div></div></div></template>";});;
 define('resources/index',["exports"], function (exports) {
   "use strict";
 
@@ -568,6 +711,26 @@ define('welcome',["exports", "aurelia-framework", "aurelia-materialize-bridge", 
     return UpperValueConverter;
   }();
 });;
-define('text!welcome.html',[],function(){return "<template><require from=\"./app.css\"></require><require from=\"materialize-css/dist/css/materialize.css\"></require><section class=\"au-animate\"><br><br><br><h4>${heading}</h4><form role=\"form\" submit.delegate=\"submit()\"><div class=\"form-group\"><label for=\"fn\">First Name</label> <input type=\"text\" value.bind=\"firstName\" class=\"form-control\" id=\"fn\" placeholder=\"first name\"></div><div class=\"form-group\"><label for=\"ln\">Last Name</label> <input type=\"text\" value.bind=\"lastName\" class=\"form-control\" id=\"ln\" placeholder=\"last name\"></div><div class=\"form-group\"><label>Full Name</label><p class=\"help-block\">${fullName | upper}</p></div><button type=\"submit\" class=\"btn btn-default\">Submit</button></form><div class=\"demo-section k-content\"><h4>Show e-mails from:</h4><input id=\"datepicker\" ak-datepicker=\"k-value.bind:'10/10/2011'\" style=\"width:100%\"><h4 style=\"margin-top:2em\">Add to archive mail from:</h4><input id=\"monthpicker\" ak-datepicker=\"k-value.bind:'November 2011'; k-start.bind:'year'; k-depth.bind: 'year';k-format.bind:'MMMM yyyy';\" style=\"width:100%\"><p></p></div><ak-grid k-data-source.bind=\"datasource\" k-pageable.bind=\"pageable\" k-sortable.bind=\"true\"><ak-col k-title=\"Contact Name\" k-field=\"ContactName\"><ak-template><div class=\"customer-photo\" style=\"background-image:url(http://demos.telerik.com/kendo-ui/content/web/Customers/${CustomerID}.jpg)\"></div><div class=\"customer-name\">${ContactName}</div></ak-template></ak-col><ak-col k-title=\"Contact Name\" k-field=\"ContactName\"></ak-col><ak-col k-title=\"Contact Title\" k-field=\"ContactTitle\"></ak-col><ak-col k-title=\"Company Name\" k-field=\"CompanyName\"></ak-col><ak-col k-field=\"Country\"></ak-col></ak-grid><div class=\"demo-section wide k-content\"><textarea ak-rich-editor style=\"height:440px\">\r\n\r\n        &lt;p&gt;&lt;img src=&quot;http://demos.telerik.com/kendo-ui/content/web/editor/kendo-ui-web.png&quot; alt=&quot;Editor for ASP.NET MVC logo&quot; style=&quot;display:block;margin-left:auto;margin-right:auto;&quot; /&gt;&lt;/p&gt;\r\n        &lt;p&gt;\r\n            Kendo UI Editor allows your users to edit HTML in a familiar, user-friendly way.&lt;br /&gt;\r\n            In this version, the Editor provides the core HTML editing engine, which includes basic text formatting, hyperlinks, lists,\r\n            and image handling. The widget &lt;strong&gt;outputs identical HTML&lt;/strong&gt; across all major browsers, follows\r\n            accessibility standards and provides API for content manipulation.\r\n        &lt;/p&gt;\r\n        &lt;p&gt;Features include:&lt;/p&gt;\r\n        &lt;ul&gt;\r\n            &lt;li&gt;Text formatting &amp; alignment&lt;/li&gt;\r\n            &lt;li&gt;Bulleted and numbered lists&lt;/li&gt;\r\n            &lt;li&gt;Hyperlink and image dialogs&lt;/li&gt;\r\n            &lt;li&gt;Cross-browser support&lt;/li&gt;\r\n            &lt;li&gt;Identical HTML output across browsers&lt;/li&gt;\r\n            &lt;li&gt;Gracefully degrades to a &lt;code&gt;textarea&lt;/code&gt; when JavaScript is turned off&lt;/li&gt;\r\n        &lt;/ul&gt;\r\n        &lt;p&gt;\r\n            Read &lt;a href=&quot;http://docs.telerik.com/kendo-ui&quot;&gt;more details&lt;/a&gt; or send us your\r\n            &lt;a href=&quot;http://www.telerik.com/forums/&quot;&gt;feedback&lt;/a&gt;!\r\n        &lt;/p&gt;\r\n        </textarea></div><div id=\"example\"><div class=\"demo-section wide k-content\"><h2>Invite Attendees</h2><label for=\"required\">Required</label><ak-multiselect k-value.two-way=\"required\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option selected=\"selected\">Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option selected=\"selected\">Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><label for=\"optional\">Optional</label><ak-multiselect k-auto-close.bind=\"false\" k-value.two-way=\"optional\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option>Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option>Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><button ak-button click.delegate=\"showAttendees()\">Send Invitation</button></div><div class=\"demo-section wide k-content\"><h2>Invite Attendees</h2><label for=\"required\">Required</label><ak-multiselect k-value.two-way=\"required\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option selected=\"selected\">Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option selected=\"selected\">Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><label for=\"optional\">Optional</label><ak-multiselect k-auto-close.bind=\"false\" k-value.two-way=\"optional\"><select multiple=\"multiple\" data-placeholder=\"Select attendees...\"><option>Steven White</option><option>Nancy King</option><option>Nancy Davolio</option><option>Robert Davolio</option><option>Michael Leverling</option><option>Andrew Callahan</option><option>Michael Suyama</option><option>Anne King</option><option>Laura Peacock</option><option>Robert Fuller</option><option>Janet White</option><option>Nancy Leverling</option><option>Robert Buchanan</option><option>Margaret Buchanan</option><option>Andrew Fuller</option><option>Anne Davolio</option><option>Andrew Suyama</option><option>Nige Buchanan</option><option>Laura Fuller</option></select></ak-multiselect><button ak-button click.delegate=\"showAttendees()\">Send Invitation</button><br><br><br><br></div></div><div class=\"button-row\"><button md-button=\"disabled.bind: !firstButtonEnabled; flat.bind: !firstButtonRaised\"><i class=\"left material-icons\">mode_edit</i>I'm a basic button</button> <button md-button=\"flat: true;\">I'm a flat button</button></div><div class=\"button-row\"><button md-button=\"large: true;\">I'm a large button</button> <button md-button=\"flat: true; large: true;\">I'm a large flat button</button></div><div class=\"button-row\"><button md-button=\"disabled: true;\">I'm a basic disabled button</button> <button md-button=\"disabled: true; flat: true;\">I'm a flat disabled button</button></div><div class=\"button-row\"><button md-button class=\"primary\">I'm a primary colored button</button></div><div class=\"button-row\"><button md-button=\"flat: true;\" class=\"primary-text\">I'm a flat primary colored button</button></div><div class=\"actions\"><hr>First button:<md-switch label-on=\"enabled\" label-off=\"disabled\" checked.bind=\"firstButtonEnabled\"></md-switch><md-switch label-on=\"raised\" label-off=\"flat\" checked.bind=\"firstButtonRaised\"></md-switch></div><div><div>Materialize <button md-button click.delegate=\"testToast()\">testToast</button><p><a md-button class=\"modal-trigger\" href=\"#modal1\">show modal (href with ID)</a></p><p style=\"margin-top:15px\"><button md-button click.delegate=\"openModal()\">show modal (button without ID)</button></p></div><div id=\"modal1\" md-modal md-modal.ref=\"modal\"><div class=\"modal-content\"><h4>Modal Header</h4><p>A bunch of text</p></div><div class=\"modal-footer\"><a click.delegate=\"agree()\" md-button=\"flat: true;\" md-waves=\"color: accent;\" class=\"modal-action modal-close\">Agree</a> <a click.delegate=\"disagree()\" md-button=\"flat: true;\" md-waves=\"color: accent;\" class=\"modal-action modal-close\">Disagree</a></div></div></div></section></template>";});;
+define('text!welcome.html',[],function(){return "<template><require from=\"./app.css\"></require><section class=\"au-animate\"><br><br><br><h4>${heading}</h4><form role=\"form\" submit.delegate=\"submit()\"><div class=\"form-group\"><label for=\"fn\">First Name</label> <input type=\"text\" value.bind=\"firstName\" class=\"form-control\" id=\"fn\" placeholder=\"first name\"></div><div class=\"form-group\"><label for=\"ln\">Last Name</label> <input type=\"text\" value.bind=\"lastName\" class=\"form-control\" id=\"ln\" placeholder=\"last name\"></div><div class=\"form-group\"><label>Full Name</label><p class=\"help-block\">${fullName | upper}</p></div><button type=\"submit\" class=\"btn btn-default\">Submit</button></form><div class=\"button-row\"><button md-button=\"disabled.bind: !firstButtonEnabled; flat.bind: !firstButtonRaised\"><i class=\"left material-icons\">mode_edit</i>I'm a basic button</button> <button md-button=\"flat: true;\">I'm a flat button</button></div><div class=\"button-row\"><button md-button=\"large: true;\">I'm a large button</button> <button md-button=\"flat: true; large: true;\">I'm a large flat button</button></div><div class=\"button-row\"><button md-button=\"disabled: true;\">I'm a basic disabled button</button> <button md-button=\"disabled: true; flat: true;\">I'm a flat disabled button</button></div><div class=\"button-row\"><button md-button class=\"primary\">I'm a primary colored button</button></div><div class=\"button-row\"><button md-button=\"flat: true;\" class=\"primary-text\">I'm a flat primary colored button</button></div><div class=\"actions\"><hr>First button:<md-switch label-on=\"enabled\" label-off=\"disabled\" checked.bind=\"firstButtonEnabled\"></md-switch><md-switch label-on=\"raised\" label-off=\"flat\" checked.bind=\"firstButtonRaised\"></md-switch></div><div><div>Materialize <button md-button click.delegate=\"testToast()\">testToast</button><p><a md-button class=\"modal-trigger\" href=\"#modal1\">show modal (href with ID)</a></p><p style=\"margin-top:15px\"><button md-button click.delegate=\"openModal()\">show modal (button without ID)</button></p></div><div id=\"modal1\" md-modal md-modal.ref=\"modal\"><div class=\"modal-content\"><h4>Modal Header</h4><p>A bunch of text</p></div><div class=\"modal-footer\"><a click.delegate=\"agree()\" md-button=\"flat: true;\" md-waves=\"color: accent;\" class=\"modal-action modal-close\">Agree</a> <a click.delegate=\"disagree()\" md-button=\"flat: true;\" md-waves=\"color: accent;\" class=\"modal-action modal-close\">Disagree</a></div></div></div></section></template>";});;
+define('welcome/index',["exports"], function (exports) {
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+
+  function _classCallCheck(instance, Constructor) {
+    if (!(instance instanceof Constructor)) {
+      throw new TypeError("Cannot call a class as a function");
+    }
+  }
+
+  var Welcome = exports.Welcome = function Welcome() {
+    _classCallCheck(this, Welcome);
+
+    this.heading = "Welcome to the Nina Meledandri's Gallery!";
+  };
+});;
+define('text!welcome/index.html',[],function(){return "<template><section><br><br><div class=\"row\"><div class=\"container-fluid\"><div class=\"col s12\"><div class=\"container\"><a href=\"#/works\"><img class=\"responsive-img\" width=\"1200px\" src=\"images/home.jpg\" alt=\"header\" border=\"0\"></a></div><br><span class=\"centertitle\"><p class=\"centertitle\">nina meledandri</p><p class=\"centertext\">paintings, photographs &amp; somewhere in between</p><p class=\"centertext\">&nbsp;</p><p class=\"centertext\"><a class=\"href\" href=\"#/works\">enter</a></p><p class=\"centertext\">&nbsp;</p></span></div></div></div></section></template>";});;
 define('resources',['resources/index'],function(m){return m;});
 //# sourceMappingURL=app-bundle.js.map

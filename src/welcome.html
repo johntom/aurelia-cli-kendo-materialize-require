@@ -1,20 +1,10 @@
 <template>
-  <!--  moved to globalresource in main,js
-   <require from="aurelia-kendoui-bridge/datepicker/datepicker"></require> 
-  <require from="aurelia-kendoui-bridge/grid/grid"></require>
-  <require from="aurelia-kendoui-bridge/grid/col"></require>
-  <require from="aurelia-kendoui-bridge/common/template"></require> -->
 
   <require from="./app.css"></require>
   
-  <require from="materialize-css/dist/css/materialize.css"></require>
-  
-  <!-- <style>
-    div.button-row {
-      padding: 5px 0;
-    }
-  </style> -->
 
+  <!-- <require from="materialize-css/dist/css/materialize.css"></require> -->
+  
 
   <section class="au-animate">
     <br><br><br>
@@ -39,170 +29,8 @@
       <button type="submit" class="btn btn-default">Submit</button>
     </form>
 
-    <div class="demo-section k-content">
-      <h4>Show e-mails from:</h4>
-      <input id="datepicker" ak-datepicker="k-value.bind:'10/10/2011'" style="width: 100%" />
-      <h4 style="margin-top: 2em;">Add to archive mail from:</h4>
-      <input id="monthpicker"
-        ak-datepicker="k-value.bind:'November 2011'; k-start.bind:'year'; k-depth.bind: 'year';k-format.bind:'MMMM yyyy';"
-        style="width: 100%" />
-      </p>
-    </div>
 
-    <ak-grid k-data-source.bind="datasource" k-pageable.bind="pageable" k-sortable.bind="true">
-      <ak-col k-title="Contact Name" k-field="ContactName">
-        <ak-template>
-          <div class='customer-photo'
-            style="background-image: url(http://demos.telerik.com/kendo-ui/content/web/Customers/${CustomerID}.jpg);">
-          </div>
-          <div class='customer-name'>${ContactName}</div>
-        </ak-template>
-      </ak-col>
-      <ak-col k-title="Contact Name" k-field="ContactName"></ak-col>
-      <ak-col k-title="Contact Title" k-field="ContactTitle"></ak-col>
-      <ak-col k-title="Company Name" k-field="CompanyName"></ak-col>
-      <ak-col k-field="Country"></ak-col>
-    </ak-grid>
-
-    <div class="demo-section wide k-content">
-      <!-- <textarea ak-rich-editor style="height:440px;width:1000px"> -->
-      <textarea ak-rich-editor style="height:440px">
-
-        &lt;p&gt;&lt;img src=&quot;http://demos.telerik.com/kendo-ui/content/web/editor/kendo-ui-web.png&quot; alt=&quot;Editor for ASP.NET MVC logo&quot; style=&quot;display:block;margin-left:auto;margin-right:auto;&quot; /&gt;&lt;/p&gt;
-        &lt;p&gt;
-            Kendo UI Editor allows your users to edit HTML in a familiar, user-friendly way.&lt;br /&gt;
-            In this version, the Editor provides the core HTML editing engine, which includes basic text formatting, hyperlinks, lists,
-            and image handling. The widget &lt;strong&gt;outputs identical HTML&lt;/strong&gt; across all major browsers, follows
-            accessibility standards and provides API for content manipulation.
-        &lt;/p&gt;
-        &lt;p&gt;Features include:&lt;/p&gt;
-        &lt;ul&gt;
-            &lt;li&gt;Text formatting &amp; alignment&lt;/li&gt;
-            &lt;li&gt;Bulleted and numbered lists&lt;/li&gt;
-            &lt;li&gt;Hyperlink and image dialogs&lt;/li&gt;
-            &lt;li&gt;Cross-browser support&lt;/li&gt;
-            &lt;li&gt;Identical HTML output across browsers&lt;/li&gt;
-            &lt;li&gt;Gracefully degrades to a &lt;code&gt;textarea&lt;/code&gt; when JavaScript is turned off&lt;/li&gt;
-        &lt;/ul&gt;
-        &lt;p&gt;
-            Read &lt;a href=&quot;http://docs.telerik.com/kendo-ui&quot;&gt;more details&lt;/a&gt; or send us your
-            &lt;a href=&quot;http://www.telerik.com/forums/&quot;&gt;feedback&lt;/a&gt;!
-        &lt;/p&gt;
-        </textarea>
-    </div>
-    <div id="example">
-
-      <div class="demo-section wide k-content">
-        <h2>Invite Attendees</h2>
-        <label for="required">Required</label>
-        <ak-multiselect k-value.two-way="required">
-          <select multiple="multiple" data-placeholder="Select attendees...">
-            <option>Steven White</option>
-            <option>Nancy King</option>
-            <option>Nancy Davolio</option>
-            <option>Robert Davolio</option>
-            <option>Michael Leverling</option>
-            <option>Andrew Callahan</option>
-            <option>Michael Suyama</option>
-            <option selected>Anne King</option>
-            <option>Laura Peacock</option>
-            <option>Robert Fuller</option>
-            <option>Janet White</option>
-            <option>Nancy Leverling</option>
-            <option>Robert Buchanan</option>
-            <option>Margaret Buchanan</option>
-            <option selected>Andrew Fuller</option>
-            <option>Anne Davolio</option>
-            <option>Andrew Suyama</option>
-            <option>Nige Buchanan</option>
-            <option>Laura Fuller</option>
-          </select>
-        </ak-multiselect>
-        <label for="optional">Optional</label>
-        <ak-multiselect k-auto-close.bind="false" k-value.two-way="optional">
-          <select multiple="multiple" data-placeholder="Select attendees...">
-            <option>Steven White</option>
-            <option>Nancy King</option>
-            <option>Nancy Davolio</option>
-            <option>Robert Davolio</option>
-            <option>Michael Leverling</option>
-            <option>Andrew Callahan</option>
-            <option>Michael Suyama</option>
-            <option>Anne King</option>
-            <option>Laura Peacock</option>
-            <option>Robert Fuller</option>
-            <option>Janet White</option>
-            <option>Nancy Leverling</option>
-            <option>Robert Buchanan</option>
-            <option>Margaret Buchanan</option>
-            <option>Andrew Fuller</option>
-            <option>Anne Davolio</option>
-            <option>Andrew Suyama</option>
-            <option>Nige Buchanan</option>
-            <option>Laura Fuller</option>
-          </select>
-        </ak-multiselect>
-
-        <button ak-button click.delegate="showAttendees()">Send Invitation</button>
-      </div>
-
-      <div class="demo-section wide k-content">
-        <h2>Invite Attendees</h2>
-
-
-        <label for="required">Required</label>
-        <ak-multiselect k-value.two-way="required">
-          <select multiple="multiple" data-placeholder="Select attendees...">
-            <option>Steven White</option>
-            <option>Nancy King</option>
-            <option>Nancy Davolio</option>
-            <option>Robert Davolio</option>
-            <option>Michael Leverling</option>
-            <option>Andrew Callahan</option>
-            <option>Michael Suyama</option>
-            <option selected>Anne King</option>
-            <option>Laura Peacock</option>
-            <option>Robert Fuller</option>
-            <option>Janet White</option>
-            <option>Nancy Leverling</option>
-            <option>Robert Buchanan</option>
-            <option>Margaret Buchanan</option>
-            <option selected>Andrew Fuller</option>
-            <option>Anne Davolio</option>
-            <option>Andrew Suyama</option>
-            <option>Nige Buchanan</option>
-            <option>Laura Fuller</option>
-          </select>
-        </ak-multiselect>
-        <label for="optional">Optional</label>
-        <ak-multiselect k-auto-close.bind="false" k-value.two-way="optional">
-          <select multiple="multiple" data-placeholder="Select attendees...">
-            <option>Steven White</option>
-            <option>Nancy King</option>
-            <option>Nancy Davolio</option>
-            <option>Robert Davolio</option>
-            <option>Michael Leverling</option>
-            <option>Andrew Callahan</option>
-            <option>Michael Suyama</option>
-            <option>Anne King</option>
-            <option>Laura Peacock</option>
-            <option>Robert Fuller</option>
-            <option>Janet White</option>
-            <option>Nancy Leverling</option>
-            <option>Robert Buchanan</option>
-            <option>Margaret Buchanan</option>
-            <option>Andrew Fuller</option>
-            <option>Anne Davolio</option>
-            <option>Andrew Suyama</option>
-            <option>Nige Buchanan</option>
-            <option>Laura Fuller</option>
-          </select>
-        </ak-multiselect>
-
-        <button ak-button click.delegate="showAttendees()">Send Invitation</button>
-        <br><br><br><br>
-      </div>
-    </div>
+    
   
 
     <div class="button-row">
